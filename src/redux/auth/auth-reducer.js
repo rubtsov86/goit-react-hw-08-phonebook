@@ -38,4 +38,8 @@ export const authReducer = createReducer(initialState, {
     isLoggedIn: true,
     isRefreshingCurrentUser: false,
   }),
+  [refreshCurrentUser.rejected]: (state, { payload }) => ({
+    ...state,
+    isRefreshingCurrentUser: false,
+  }),
 });

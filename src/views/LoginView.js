@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/auth/auth-operations';
+import s from './LoginView.module.css';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 
 const LoginView = () => {
   const [email, setEmail] = useState('');
@@ -29,38 +32,53 @@ const LoginView = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        email
+    <>
+      <form onSubmit={handleSubmit} className={s.form}>
+        <h2 className={s.title}>Login form</h2>
+        <label className={s.label} htmlFor="email">
+          email
+        </label>
         <input
           type="email"
           onChange={handleInput}
           name="email"
           value={email}
           required
+          id="email"
+          className={s.input}
         />
-      </label>
 
-      <label>
-        password
+        <label className={s.label} htmlFor="password">
+          password
+        </label>
+
         <input
           type="password"
           onChange={handleInput}
           name="password"
           value={password}
           required
+          id="password"
+          className={s.input}
         />
-      </label>
-
-      <button type="submit">
+        <Button
+          type="submit"
+          variant="contained"
+          endIcon={<SendIcon />}
+          size="large"
+        >
+          Login
+        </Button>
+        {/* <button type="submit"> */}
         {/* {loading ? (
           <Circles height="15" width="15" color="blue" ariaLabel="loading" />
         ) : (
           'Add contact'
         )} */}
-        Войти
-      </button>
-    </form>
+        {/* Войти
+        </button> */}
+      </form>
+    </>
   );
 };
 

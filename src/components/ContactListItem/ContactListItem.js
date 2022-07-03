@@ -16,8 +16,14 @@ const ContactListItem = ({ id, name, number, loader }) => {
       <button
         className={s.button}
         id={id}
+        name={name}
         onClick={evt => {
-          dispatch(contactsOperations.deleteContact(evt.currentTarget.id));
+          dispatch(
+            contactsOperations.deleteContact({
+              id: evt.currentTarget.id,
+              name: evt.currentTarget.name,
+            })
+          );
         }}
       >
         {loader ? (

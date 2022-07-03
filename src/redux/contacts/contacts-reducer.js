@@ -22,8 +22,8 @@ const itemReducer = createReducer([], {
 
   [addContact.fulfilled]: (state, { payload }) => [...state, { ...payload }],
 
-  [deleteContact.fulfilled]: (state, { payload }) => [
-    ...state.filter(({ id }) => id !== payload),
+  [deleteContact.fulfilled]: (state, action) => [
+    ...state.filter(({ id }) => id !== action.meta.arg.id),
   ],
 });
 

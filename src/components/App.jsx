@@ -10,6 +10,7 @@ import AppBar from '../views/AppBar';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshCurrentUser } from '../redux/auth/auth-operations';
+import Container from './Container';
 // import PrivateRoute from './PrivateRoute';
 import {
   getIsLoggedIn,
@@ -37,11 +38,28 @@ function App() {
         <Suspense fallback={<div>Загрузка</div>}>
           <Routes>
             <Route path="/" element={<HomeView />} />
-            <Route path="/register" element={<RegisterView />}></Route>
+            <Route
+              path="/register"
+              element={
+                isLoggedIn ? (
+                  <Navigate replace to="/contacts" />
+                ) : (
+                  <Container>
+                    <RegisterView />
+                  </Container>
+                )
+              }
+            ></Route>
             <Route
               path="/login"
               element={
-                isLoggedIn ? <Navigate replace to="/contacts" /> : <LoginView />
+                isLoggedIn ? (
+                  <Navigate replace to="/contacts" />
+                ) : (
+                  <Container>
+                    <LoginView />
+                  </Container>
+                )
               }
             ></Route>
 

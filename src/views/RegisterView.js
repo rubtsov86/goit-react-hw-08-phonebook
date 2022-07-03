@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/auth-operations';
+import s from './LoginView.module.css';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 
 const RegisterView = () => {
   const [name, setName] = useState('');
@@ -34,50 +37,66 @@ const RegisterView = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form onSubmit={handleSubmit} className={s.form}>
+      <h2 className={s.title}>Register form</h2>
+      <label htmlFor="name" className={s.label}>
         name
-        <input
-          type="text"
-          onChange={handleInput}
-          name="name"
-          value={name}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
       </label>
+      <input
+        type="text"
+        onChange={handleInput}
+        name="name"
+        value={name}
+        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        required
+        id="name"
+        className={s.input}
+      />
 
-      <label>
+      <label htmlFor="registerEmail" className={s.label}>
         email
-        <input
-          type="email"
-          onChange={handleInput}
-          name="email"
-          value={email}
-          required
-        />
       </label>
+      <input
+        type="email"
+        onChange={handleInput}
+        name="email"
+        value={email}
+        required
+        id="registerEmail"
+        className={s.input}
+      />
 
-      <label>
+      <label htmlFor="password" className={s.label}>
         password
-        <input
-          type="password"
-          onChange={handleInput}
-          name="password"
-          value={password}
-          required
-        />
       </label>
+      <input
+        type="password"
+        onChange={handleInput}
+        name="password"
+        value={password}
+        required
+        id="password"
+        className={s.input}
+      />
 
-      <button type="submit">
-        {/* {loading ? (
+      <Button
+        type="submit"
+        variant="contained"
+        endIcon={<SendIcon />}
+        size="large"
+      >
+        Register
+      </Button>
+
+      {/* <button type="submit"> */}
+      {/* {loading ? (
           <Circles height="15" width="15" color="blue" ariaLabel="loading" />
         ) : (
           'Add contact'
         )} */}
-        Зарегистрироваться
-      </button>
+      {/* Зарегистрироваться
+      </button> */}
     </form>
   );
 };
