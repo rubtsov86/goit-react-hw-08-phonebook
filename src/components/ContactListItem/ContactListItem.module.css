@@ -5,6 +5,7 @@
   width: 500px;
   display: flex;
   justify-content: space-between;
+ 
 }
 
 .item:not(:last-child) {
@@ -13,7 +14,8 @@
 
 .name {
   font-weight: 700;
-  margin-right: 20px;
+  font-size: 22px;
+  margin-right: 25px;
 }
 
 .button {
@@ -21,7 +23,10 @@
 }
 
 .contactContainer {
+  margin-left: 20px;
   width: 350px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
+

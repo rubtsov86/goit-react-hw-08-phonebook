@@ -1,10 +1,22 @@
 import ContactListItem from '../ContactListItem';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
 import { useEffect } from 'react';
+import s from './ContactList.module.css';
+import Modal from 'components/Modal';
 
 const ContactList = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleHideModal = e => {
+    setShowModal(false);
+  };
+
+  const handleShowModal = e => {
+    setShowModal(e.currentTarget.id);
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(contactsOperations.fetchContacts());
@@ -17,17 +29,21 @@ const ContactList = () => {
     return <p>Don't find any contact, try something else</p>;
   }
   return (
-    <ul>
-      {filteredContacts.map(({ name, number, id }) => (
-        <ContactListItem
-          key={id}
-          id={id}
-          name={name}
-          number={number}
-          loader={loading?.id === id}
-        />
-      ))}
-    </ul>
+    <>
+      <ul className={s.list}>
+        {filteredContacts.map(({ name, number, id }) => (
+          <ContactListItem
+            key={id}
+            id={id}
+            name={name}
+            number={number}
+            loader={loading?.id === id}
+            handleShowModal={handleShowModal}
+          />
+        ))}
+      </ul>
+      {showModal && <Modal onClick={handleHideModal} showModal={showModal} />}
+    </>
   );
 };
 

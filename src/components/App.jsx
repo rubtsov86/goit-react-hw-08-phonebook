@@ -1,41 +1,50 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
-import { Suspense } from 'react';
+/* react, react-router-dom */
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import ContactsView from '../views/ContactsView';
-import LoginView from '../views/LoginView';
-import HomeView from '../views/HomeView';
-import RegisterView from '../views/RegisterView';
-import AppBar from '../views/AppBar';
-import { useEffect } from 'react';
+
+/* redux-state */
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshCurrentUser } from '../redux/auth/auth-operations';
+import { authOperations, authSelectors } from 'redux/auth';
+
+/* notification */
+import { Toaster } from 'react-hot-toast';
+
+/* components */
+import AppBar from '../views/AppBar';
 import Container from './Container';
-// import PrivateRoute from './PrivateRoute';
-import {
-  getIsLoggedIn,
-  getIsRefreshingCurrentUser,
-} from 'redux/auth/auth-selectors';
+
+const HomeView = lazy(() =>
+  import('../views/HomeView' /* webpackChunkName: "home-page" */)
+);
+
+const LoginView = lazy(() =>
+  import('../views/LoginView' /* webpackChunkName: "login" */)
+);
+
+const RegisterView = lazy(() =>
+  import('../views/RegisterView' /* webpackChunkName: "register" */)
+);
+
+const ContactsView = lazy(() =>
+  import('../views/ContactsView' /* webpackChunkName: "contacts" */)
+);
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getIsLoggedIn);
-  const isRefreshingCurrentUser = useSelector(getIsRefreshingCurrentUser);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+  const isRefreshingCurrentUser = useSelector(
+    authSelectors.getIsRefreshingCurrentUser
+  );
 
   useEffect(() => {
-    dispatch(refreshCurrentUser());
+    dispatch(authOperations.refreshCurrentUser());
   }, [dispatch]);
 
   return (
     !isRefreshingCurrentUser && (
-      <div
-        style={{
-          paddingLeft: 20,
-          color: '#010101',
-        }}
-      >
+      <div>
         <AppBar />
-        <Suspense fallback={<div>Загрузка</div>}>
+        <Suspense fallback={<div>Загрузка...</div>}>
           <Routes>
             <Route path="/" element={<HomeView />} />
             <Route

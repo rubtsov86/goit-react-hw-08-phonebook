@@ -6,12 +6,24 @@ import { useDispatch } from 'react-redux';
 import { Circles } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
 
-const ContactListItem = ({ id, name, number, loader }) => {
+const ContactListItem = ({ id, name, number, loader, handleShowModal }) => {
   const dispatch = useDispatch();
 
   return (
     <li className={s.item}>
+      <Fab
+        size="small"
+        color="primary"
+        aria-label="edit"
+        className={s.fab}
+        onClick={handleShowModal}
+        id={id}
+      >
+        <EditIcon />
+      </Fab>
       <div className={s.contactContainer}>
         <span className={s.name}>{name}:</span>
         <span className={s.number}>{number}</span>
