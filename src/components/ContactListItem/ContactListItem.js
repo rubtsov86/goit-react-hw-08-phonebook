@@ -4,19 +4,31 @@ import PropTypes from 'prop-types';
 import { contactsOperations } from 'redux/contacts';
 import { useDispatch } from 'react-redux';
 import { Circles } from 'react-loader-spinner';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContactListItem = ({ id, name, number, loader }) => {
   const dispatch = useDispatch();
 
   return (
     <li className={s.item}>
-      <span>{name}: </span>
-      <span>{number}</span>
+      <div className={s.contactContainer}>
+        <span className={s.name}>{name}:</span>
+        <span className={s.number}>{number}</span>
+      </div>
 
-      <button
+      <Button
         className={s.button}
         id={id}
         name={name}
+        variant="outlined"
+        startIcon={
+          loader ? (
+            <Circles height="20" width="20" color="blue" ariaLabel="loading" />
+          ) : (
+            <DeleteIcon />
+          )
+        }
         onClick={evt => {
           dispatch(
             contactsOperations.deleteContact({
@@ -26,12 +38,8 @@ const ContactListItem = ({ id, name, number, loader }) => {
           );
         }}
       >
-        {loader ? (
-          <Circles height="20" width="20" color="blue" ariaLabel="loading" />
-        ) : (
-          'Delete'
-        )}
-      </button>
+        Delete
+      </Button>
     </li>
   );
 };

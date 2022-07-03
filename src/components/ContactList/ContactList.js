@@ -24,7 +24,7 @@ const ContactList = () => {
           id={id}
           name={name}
           number={number}
-          loader={loading === id}
+          loader={loading.id === id}
         />
       ))}
     </ul>

@@ -1,20 +1,27 @@
 .item {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .item:not(:last-child) {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-weight: 700;
+  margin-right: 20px;
 }
 
 .button {
-    margin-left: 20px;
-    height: 24px;
-    width: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    padding: 10px;
+  margin-left: 20px;
+}
+
+.contactContainer {
+  width: 350px;
+  display: flex;
+  justify-content: space-between;
 }

@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
 import toast from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 
 function Phonebook() {
   const [name, setName] = useState('');
@@ -54,41 +56,51 @@ function Phonebook() {
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
-      <label className={s.label}>
+      <h2 className={s.title}>Add contact</h2>
+      <label className={s.label} htmlFor="nameAdd">
         Name
-        <input
-          type="text"
-          onChange={handleInput}
-          name="name"
-          value={name}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          className={s.input}
-        />
       </label>
+      <input
+        type="text"
+        onChange={handleInput}
+        name="name"
+        value={name}
+        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        required
+        className={s.input}
+        id="nameAdd"
+      />
 
-      <label className={s.label}>
+      <label className={s.label} htmlFor="numberAdd">
         Number
-        <input
-          type="tel"
-          onChange={handleInput}
-          name="number"
-          value={number}
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-          className={s.input}
-        />
       </label>
+      <input
+        type="tel"
+        onChange={handleInput}
+        name="number"
+        value={number}
+        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+        required
+        className={s.input}
+        id="numberAdd"
+      />
 
-      <button className={s.button} type="submit">
-        {loading ? (
-          <Circles height="15" width="15" color="blue" ariaLabel="loading" />
-        ) : (
-          'Add contact'
-        )}
-      </button>
+      <Button
+        type="submit"
+        variant="contained"
+        endIcon={
+          loading ? (
+            <Circles height="15" width="15" color="white" ariaLabel="loading" />
+          ) : (
+            <SendIcon />
+          )
+        }
+        size="large"
+      >
+        Add contact
+      </Button>
     </form>
   );
 }

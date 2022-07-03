@@ -31,3 +31,14 @@
     margin-bottom: 40px;
     font-size: 24px;
 }
+
+.container {
+    padding-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    max-width: 1280px;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+}
