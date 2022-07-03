@@ -1,38 +1,73 @@
 import React from 'react';
-import Phonebook from './Phonebook';
-import ContactList from './ContactList';
-import Filter from './Filter';
-import { useSelector } from 'react-redux';
-import { contactsSelectors } from 'redux/contacts';
 import { Toaster } from 'react-hot-toast';
+import { Suspense } from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import ContactsView from '../views/ContactsView';
+import LoginView from '../views/LoginView';
+import HomeView from '../views/HomeView';
+import RegisterView from '../views/RegisterView';
+import AppBar from '../views/AppBar';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshCurrentUser } from '../redux/auth/auth-operations';
+// import PrivateRoute from './PrivateRoute';
+import {
+  getIsLoggedIn,
+  getIsRefreshingCurrentUser,
+} from 'redux/auth/auth-selectors';
 
 function App() {
-  const error = useSelector(contactsSelectors.getError);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const isRefreshingCurrentUser = useSelector(getIsRefreshingCurrentUser);
+
+  useEffect(() => {
+    dispatch(refreshCurrentUser());
+  }, [dispatch]);
 
   return (
-    <div
-      style={{
-        fontSize: 40,
-        paddingLeft: 20,
-        textTransform: 'uppercase',
-        color: '#010101',
-      }}
-    >
-      <h1>Phonebook</h1>
-      <Phonebook />
-
-      <h2>Contacts</h2>
-      <Filter />
-      {error ? <h2>{error}, please try latter</h2> : <ContactList />}
-      <Toaster
-        toastOptions={{
-          className: '',
-          style: {
-            fontSize: 16,
-          },
+    !isRefreshingCurrentUser && (
+      <div
+        style={{
+          paddingLeft: 20,
+          color: '#010101',
         }}
-      />
-    </div>
+      >
+        <AppBar />
+        <Suspense fallback={<div>Загрузка</div>}>
+          <Routes>
+            <Route path="/" element={<HomeView />} />
+            <Route path="/register" element={<RegisterView />}></Route>
+            <Route
+              path="/login"
+              element={
+                isLoggedIn ? <Navigate replace to="/contacts" /> : <LoginView />
+              }
+            ></Route>
+
+            <Route
+              path="/contacts"
+              element={
+                isLoggedIn ? <ContactsView /> : <Navigate replace to="/login" />
+              }
+            ></Route>
+
+            <Route
+              element={<h2>404 error, this page doesn't exist</h2>}
+            ></Route>
+          </Routes>
+        </Suspense>
+
+        <Toaster
+          toastOptions={{
+            className: '',
+            style: {
+              fontSize: 16,
+            },
+          }}
+        />
+      </div>
+    )
   );
 }
 

@@ -2,8 +2,6 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
-axios.defaults.baseURL = `https://62a758f5bedc4ca6d7c778ce.mockapi.io`;
-
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, { rejectWithValue }) => {
