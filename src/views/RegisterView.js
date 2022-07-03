@@ -31,9 +31,6 @@ const RegisterView = () => {
   const handleSubmit = evt => {
     evt.preventDefault();
     dispatch(register({ name, email, password }));
-    setName('');
-    setEmail('');
-    setPassword('');
   };
 
   return (
@@ -77,6 +74,7 @@ const RegisterView = () => {
         value={password}
         required
         id="password"
+        minLength={7}
         className={s.input}
       />
 

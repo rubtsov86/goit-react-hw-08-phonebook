@@ -2,20 +2,16 @@ import { useState } from 'react';
 import s from './PatchForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
-import toast from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 
 function PatchForm({ onClick, showModal }) {
   const contacts = useSelector(contactsSelectors.getContacts);
+  const contactToEdit = contacts.find(contact => contact.id === showModal);
 
-  const [name, setName] = useState(
-    contacts.find(contact => contact.id === showModal).name
-  );
-  const [number, setNumber] = useState(
-    contacts.find(contact => contact.id === showModal).number
-  );
+  const [name, setName] = useState(contactToEdit.name);
+  const [number, setNumber] = useState(contactToEdit.number);
 
   const loading = useSelector(contactsSelectors.getLoading);
   const dispatch = useDispatch();
@@ -35,28 +31,8 @@ function PatchForm({ onClick, showModal }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    addContactToContacts(name, number);
-  };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
-  };
-
-  const addContactToContacts = (name, number) => {
-    const isNameInContacts = contacts
-      .map(({ name }) => name.toLowerCase())
-      .includes(name.toLowerCase());
-
-    if (isNameInContacts) {
-      toast.error(`${name} is already in contacts`, {
-        duration: 3000,
-        position: 'top-center',
-      });
-    } else {
-      dispatch(contactsOperations.addContact({ name, number }));
-      reset();
-    }
+    dispatch(contactsOperations.patchContact({ name, number, id: showModal }));
+    onClick();
   };
 
   return (

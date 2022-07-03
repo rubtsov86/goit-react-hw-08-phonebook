@@ -45,3 +45,22 @@ export const fetchContacts = createAsyncThunk(
     }
   }
 );
+
+export const patchContact = createAsyncThunk(
+  'contacts/patchContact',
+  async ({ name, number, id }, { rejectWithValue }) => {
+    try {
+      const data = await axios.patch(`/contacts/${id}`, {
+        name,
+        number,
+      });
+      toast.success(`edit contact`, {
+        duration: 1500,
+        position: 'top-center',
+      });
+      return data.id;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

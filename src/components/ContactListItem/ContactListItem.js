@@ -25,7 +25,7 @@ const ContactListItem = ({ id, name, number, loader, handleShowModal }) => {
         <EditIcon />
       </Fab>
       <div className={s.contactContainer}>
-        <span className={s.name}>{name}:</span>
+        <span className={s.name}>{name}</span>
         <span className={s.number}>{number}</span>
       </div>
 
