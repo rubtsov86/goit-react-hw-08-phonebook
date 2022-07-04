@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 /* redux-state */
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
-import { authSelectors } from 'redux/auth';
 
 /* style */
 import s from './ContactList.module.css';
@@ -19,8 +18,8 @@ const ContactList = () => {
   const allContacts = useSelector(contactsSelectors.getContacts);
   const filteredContacts = useSelector(contactsSelectors.getFilteredContacts);
   const loading = useSelector(contactsSelectors.getLoading);
-  const isRefreshingCurrentUser = useSelector(
-    authSelectors.getIsRefreshingCurrentUser
+  const isFetchingContacts = useSelector(
+    contactsSelectors.getIsFetchingContacts
   );
 
   const dispatch = useDispatch();
@@ -55,7 +54,7 @@ const ContactList = () => {
         ))}
       </ul>
 
-      {allContacts.length === 0 && isRefreshingCurrentUser && (
+      {allContacts.length === 0 && !isFetchingContacts && (
         <p>You don't have any contact, please add your contacts</p>
       )}
 

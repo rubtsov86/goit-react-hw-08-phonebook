@@ -50,9 +50,16 @@ const filterReducer = createReducer('', {
   [setFilter]: (_, { payload }) => payload,
 });
 
+const isFetchingContacts = createReducer(false, {
+  [fetchContacts.pending]: (_, { payload }) => true,
+  [fetchContacts.fulfilled]: (_, { payload }) => false,
+  [fetchContacts.rejected]: (_, { payload }) => false,
+});
+
 export const contactsReducer = combineReducers({
   items: itemReducer,
   error,
   loading,
   filter: filterReducer,
+  isFetchingContacts,
 });

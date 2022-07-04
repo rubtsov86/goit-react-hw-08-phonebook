@@ -7,3 +7,5 @@ export const getFilteredContacts = state =>
   );
 export const getError = state => state.contacts.error;
 export const getLoading = state => state.contacts.loading;
+
+export const getIsFetchingContacts = state => state.contacts.isFetchingContacts;
