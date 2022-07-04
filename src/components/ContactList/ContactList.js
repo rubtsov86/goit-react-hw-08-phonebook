@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 /* redux-state */
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
+import { authSelectors } from 'redux/auth';
 
 /* style */
 import s from './ContactList.module.css';
@@ -18,6 +19,9 @@ const ContactList = () => {
   const allContacts = useSelector(contactsSelectors.getContacts);
   const filteredContacts = useSelector(contactsSelectors.getFilteredContacts);
   const loading = useSelector(contactsSelectors.getLoading);
+  const isRefreshingCurrentUser = useSelector(
+    authSelectors.getIsRefreshingCurrentUser
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,6 +39,7 @@ const ContactList = () => {
   if (filteredContacts.length === 0 && allContacts.length !== 0) {
     return <p>Don't find any contact, try something else</p>;
   }
+
   return (
     <>
       <ul className={s.list}>
@@ -49,6 +54,11 @@ const ContactList = () => {
           />
         ))}
       </ul>
+
+      {allContacts.length === 0 && isRefreshingCurrentUser && (
+        <p>You don't have any contact, please add your contacts</p>
+      )}
+
       {patchContactId && (
         <Modal onClick={handleHideModal} id={patchContactId} />
       )}
