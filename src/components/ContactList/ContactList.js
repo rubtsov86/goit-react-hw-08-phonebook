@@ -1,29 +1,36 @@
-import ContactListItem from '../ContactListItem';
-import React, { useState } from 'react';
+/* react, react-router-dom */
+import React, { useState, useEffect } from 'react';
+
+/* redux-state */
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
-import { useEffect } from 'react';
+
+/* style */
 import s from './ContactList.module.css';
+
+/* components */
 import Modal from 'components/Modal';
+import ContactListItem from '../ContactListItem';
 
 const ContactList = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [patchContactId, setPatchContactId] = useState(null);
 
-  const handleHideModal = e => {
-    setShowModal(false);
-  };
-
-  const handleShowModal = e => {
-    setShowModal(e.currentTarget.id);
-  };
+  const allContacts = useSelector(contactsSelectors.getContacts);
+  const filteredContacts = useSelector(contactsSelectors.getFilteredContacts);
+  const loading = useSelector(contactsSelectors.getLoading);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(contactsOperations.fetchContacts());
   }, [dispatch]);
-  const allContacts = useSelector(contactsSelectors.getContacts);
-  const filteredContacts = useSelector(contactsSelectors.getFilteredContacts);
-  const loading = useSelector(contactsSelectors.getLoading);
+
+  const handleHideModal = e => {
+    setPatchContactId(null);
+  };
+
+  const handleShowModal = e => {
+    setPatchContactId(e.currentTarget.id);
+  };
 
   if (filteredContacts.length === 0 && allContacts.length !== 0) {
     return <p>Don't find any contact, try something else</p>;
@@ -42,7 +49,9 @@ const ContactList = () => {
           />
         ))}
       </ul>
-      {showModal && <Modal onClick={handleHideModal} showModal={showModal} />}
+      {patchContactId && (
+        <Modal onClick={handleHideModal} id={patchContactId} />
+      )}
     </>
   );
 };

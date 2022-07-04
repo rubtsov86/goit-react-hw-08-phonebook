@@ -1,4 +1,7 @@
+/* react, react-router-dom */
 import { NavLink } from 'react-router-dom';
+
+/* style */
 import s from './AuthNav.module.css';
 
 const AuthNav = () => {
@@ -12,7 +15,7 @@ const AuthNav = () => {
               isActive ? s.navLinkActive : s.navLink
             }
           >
-            Регистрация
+            Register
           </NavLink>
         </li>
         <li className={s.navListItem}>
@@ -22,7 +25,7 @@ const AuthNav = () => {
               isActive ? s.navLinkActive : s.navLink
             }
           >
-            Логин
+            Login
           </NavLink>
         </li>
       </ul>

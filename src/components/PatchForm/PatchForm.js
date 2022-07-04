@@ -1,14 +1,20 @@
+/* react, react-router-dom */
 import { useState } from 'react';
-import s from './PatchForm.module.css';
+
+/* redux-state */
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
+
+/* style, materialUI, spinner propTypes */
+import s from './PatchForm.module.css';
 import { Circles } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
+import PropTypes from 'prop-types';
 
-function PatchForm({ onClick, showModal }) {
+function PatchForm({ onClick, id }) {
   const contacts = useSelector(contactsSelectors.getContacts);
-  const contactToEdit = contacts.find(contact => contact.id === showModal);
+  const contactToEdit = contacts.find(contact => contact.id === id);
 
   const [name, setName] = useState(contactToEdit.name);
   const [number, setNumber] = useState(contactToEdit.number);
@@ -17,11 +23,11 @@ function PatchForm({ onClick, showModal }) {
   const dispatch = useDispatch();
 
   const handleInput = evt => {
-    switch (evt.currentTarget.name) {
-      case 'name':
+    switch (evt.currentTarget.id) {
+      case 'namePatch':
         setName(evt.currentTarget.value);
         break;
-      case 'number':
+      case 'numberPatch':
         setNumber(evt.currentTarget.value);
         break;
       default:
@@ -31,14 +37,14 @@ function PatchForm({ onClick, showModal }) {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(contactsOperations.patchContact({ name, number, id: showModal }));
+    dispatch(contactsOperations.patchContact({ name, number, id }));
     onClick();
   };
 
   return (
     <form className={s.form} onSubmit={handleSubmit}>
       <h2 className={s.title}>Edit contact</h2>
-      <label className={s.label} htmlFor="nameAdd">
+      <label className={s.label} htmlFor="namePatch">
         Name
       </label>
       <input
@@ -50,10 +56,10 @@ function PatchForm({ onClick, showModal }) {
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
         className={s.input}
-        id="nameAdd"
+        id="namePatch"
       />
 
-      <label className={s.label} htmlFor="numberAdd">
+      <label className={s.label} htmlFor="numberPatch">
         Number
       </label>
       <input
@@ -65,7 +71,7 @@ function PatchForm({ onClick, showModal }) {
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
         className={s.input}
-        id="numberAdd"
+        id="numberPatch"
       />
 
       <div className={s.buttonContainer}>
@@ -103,3 +109,8 @@ function PatchForm({ onClick, showModal }) {
 }
 
 export default PatchForm;
+
+PatchForm.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+};

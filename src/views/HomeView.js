@@ -1,5 +1,5 @@
 import Container from 'components/Container';
-import image from './image.jpg';
+import image from '../images/image.jpg';
 
 const HomeView = () => {
   return (

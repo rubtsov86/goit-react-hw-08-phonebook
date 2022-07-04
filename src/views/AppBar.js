@@ -1,16 +1,22 @@
-import Navigation from 'components/Navigation';
-import AuthNav from 'components/AuthNav';
-import UserMenu from 'components/UserMenu';
+/* redux state  */
 import { useSelector } from 'react-redux';
-import { getIsLoggedIn } from '../redux/auth/auth-selectors';
+import { authSelectors } from 'redux/auth';
+
 import * as React from 'react';
+
+/* materialUI  */
 import AppBarUI from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+/* components  */
+import Navigation from 'components/Navigation';
+import AuthNav from 'components/AuthNav';
+import UserMenu from 'components/UserMenu';
+
 const AppBar = () => {
-  const isLoggedIn = useSelector(getIsLoggedIn);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
 
   return (
     <div>

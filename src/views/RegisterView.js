@@ -1,7 +1,11 @@
 import { useState } from 'react';
+
+/* redux state */
 import { useDispatch } from 'react-redux';
-import { register } from 'redux/auth/auth-operations';
-import s from './LoginView.module.css';
+import { authOperations } from 'redux/auth';
+
+/* style, materialUI */
+import s from './Views.module.css';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -13,7 +17,7 @@ const RegisterView = () => {
   const dispatch = useDispatch();
 
   const handleInput = evt => {
-    switch (evt.currentTarget.name) {
+    switch (evt.currentTarget.id) {
       case 'name':
         setName(evt.currentTarget.value);
         break;
@@ -30,7 +34,7 @@ const RegisterView = () => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(register({ name, email, password }));
+    dispatch(authOperations.register({ name, email, password }));
   };
 
   return (
@@ -51,7 +55,7 @@ const RegisterView = () => {
         className={s.input}
       />
 
-      <label htmlFor="registerEmail" className={s.label}>
+      <label htmlFor="email" className={s.label}>
         email
       </label>
       <input
@@ -60,7 +64,7 @@ const RegisterView = () => {
         name="email"
         value={email}
         required
-        id="registerEmail"
+        id="email"
         className={s.input}
       />
 
@@ -86,15 +90,6 @@ const RegisterView = () => {
       >
         Register
       </Button>
-
-      {/* <button type="submit"> */}
-      {/* {loading ? (
-          <Circles height="15" width="15" color="blue" ariaLabel="loading" />
-        ) : (
-          'Add contact'
-        )} */}
-      {/* Зарегистрироваться
-      </button> */}
     </form>
   );
 };

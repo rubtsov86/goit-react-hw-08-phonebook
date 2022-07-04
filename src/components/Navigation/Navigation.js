@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import s from './Navigation.module.css';
+
+/* redux state*/
 import { useSelector } from 'react-redux';
 import { getIsLoggedIn } from 'redux/auth/auth-selectors';
 
@@ -16,7 +18,7 @@ const Navigation = () => {
               isActive ? s.navLinkActive : s.navLink
             }
           >
-            Главная
+            Home
           </NavLink>
         </li>
 
@@ -28,7 +30,7 @@ const Navigation = () => {
                 isActive ? s.navLinkActive : s.navLink
               }
             >
-              Контакты
+              Contacts
             </NavLink>
           </li>
         )}

@@ -1,7 +1,12 @@
+/* react, react-router-dom */
 import { useState } from 'react';
-import s from './Phonebook.module.css';
+
+/* redux state */
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
+
+/* style, notification, spinner, materialUI */
+import s from './Phonebook.module.css';
 import toast from 'react-hot-toast';
 import { Circles } from 'react-loader-spinner';
 import Button from '@mui/material/Button';
@@ -16,11 +21,11 @@ function Phonebook() {
   const dispatch = useDispatch();
 
   const handleInput = evt => {
-    switch (evt.currentTarget.name) {
-      case 'name':
+    switch (evt.currentTarget.id) {
+      case 'nameAdd':
         setName(evt.currentTarget.value);
         break;
-      case 'number':
+      case 'numberAdd':
         setNumber(evt.currentTarget.value);
         break;
       default:
@@ -91,7 +96,7 @@ function Phonebook() {
         type="submit"
         variant="contained"
         endIcon={
-          loading ? (
+          name && loading ? (
             <Circles height="15" width="15" color="white" ariaLabel="loading" />
           ) : (
             <SendIcon />

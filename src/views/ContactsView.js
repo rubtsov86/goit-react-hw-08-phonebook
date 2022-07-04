@@ -1,9 +1,14 @@
-import Phonebook from '../components/Phonebook';
-import Filter from '../components/Filter';
-import ContactList from '../components/ContactList';
+/* components */
+import Phonebook from 'components/Phonebook';
+import Filter from 'components/Filter';
+import ContactList from 'components/ContactList';
+
+/* redux state */
 import { useSelector } from 'react-redux';
 import { contactsSelectors } from 'redux/contacts';
-import s from './LoginView.module.css';
+
+/* style */
+import s from './Views.module.css';
 
 const ContactsView = () => {
   const error = useSelector(contactsSelectors.getError);

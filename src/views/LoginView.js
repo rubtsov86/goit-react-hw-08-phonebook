@@ -1,7 +1,11 @@
 import { useState } from 'react';
+
+/* redux state   */
 import { useDispatch } from 'react-redux';
-import { logIn } from 'redux/auth/auth-operations';
-import s from './LoginView.module.css';
+import { authOperations } from 'redux/auth';
+
+/* style, materialUI   */
+import s from './Views.module.css';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -12,7 +16,7 @@ const LoginView = () => {
   const dispatch = useDispatch();
 
   const handleInput = evt => {
-    switch (evt.currentTarget.name) {
+    switch (evt.currentTarget.id) {
       case 'email':
         setEmail(evt.currentTarget.value);
         break;
@@ -26,7 +30,7 @@ const LoginView = () => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(logIn({ email, password }));
+    dispatch(authOperations.logIn({ email, password }));
   };
 
   return (
@@ -67,14 +71,6 @@ const LoginView = () => {
         >
           Login
         </Button>
-        {/* <button type="submit"> */}
-        {/* {loading ? (
-          <Circles height="15" width="15" color="blue" ariaLabel="loading" />
-        ) : (
-          'Add contact'
-        )} */}
-        {/* Войти
-        </button> */}
       </form>
     </>
   );
