@@ -14,27 +14,20 @@ const modalRoot = document.querySelector('#modal-root');
 
 function Modal({ onClick, id }) {
   useEffect(() => {
-    document.addEventListener('keydown', handleKeydown);
+    const onClose = e => {
+      if (e.code === 'Escape') {
+        onClick();
+      }
+    };
+
+    document.addEventListener('keydown', onClose);
     return function clean() {
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', onClose);
     };
   });
 
-  const handleKeydown = e => {
-    console.log(e.code);
-    if (e.code === 'Escape') {
-      onClick();
-    }
-  };
-
-  const handleOverlay = e => {
-    if (e.currentTarget === e.target) {
-      onClick();
-    }
-  };
-
   return createPortal(
-    <div className={s.Overlay} onClick={handleOverlay}>
+    <div className={s.Overlay}>
       <div className={s.Modal}>
         <PatchForm onClick={onClick} id={id} />
       </div>

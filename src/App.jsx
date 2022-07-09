@@ -1,6 +1,6 @@
 /* react, react-router-dom */
 import React, { Suspense, lazy, useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 /* redux-state */
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,28 +10,29 @@ import { authOperations, authSelectors } from 'redux/auth';
 import { Toaster } from 'react-hot-toast';
 
 /* components */
-import AppBar from '../views/AppBar';
-import Container from './Container';
+import AppBar from './views/AppBar';
+import Container from './components/Container';
+import PrivateRoute from 'components/PrivateRoute';
+import PublicRoute from 'components/PublicRoute';
 
 const HomeView = lazy(() =>
-  import('../views/HomeView' /* webpackChunkName: "home-page" */)
+  import('./views/HomeView' /* webpackChunkName: "home-page" */)
 );
 
 const LoginView = lazy(() =>
-  import('../views/LoginView' /* webpackChunkName: "login" */)
+  import('./views/LoginView' /* webpackChunkName: "login" */)
 );
 
 const RegisterView = lazy(() =>
-  import('../views/RegisterView' /* webpackChunkName: "register" */)
+  import('./views/RegisterView' /* webpackChunkName: "register" */)
 );
 
 const ContactsView = lazy(() =>
-  import('../views/ContactsView' /* webpackChunkName: "contacts" */)
+  import('./views/ContactsView' /* webpackChunkName: "contacts" */)
 );
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   const isRefreshingCurrentUser = useSelector(
     authSelectors.getIsRefreshingCurrentUser
   );
@@ -50,36 +51,35 @@ function App() {
             <Route
               path="/register"
               element={
-                isLoggedIn ? (
-                  <Navigate replace to="/contacts" />
-                ) : (
+                <PublicRoute>
                   <Container>
                     <RegisterView />
                   </Container>
-                )
+                </PublicRoute>
               }
             ></Route>
             <Route
               path="/login"
               element={
-                isLoggedIn ? (
-                  <Navigate replace to="/contacts" />
-                ) : (
+                <PublicRoute>
                   <Container>
                     <LoginView />
                   </Container>
-                )
+                </PublicRoute>
               }
             ></Route>
 
             <Route
               path="/contacts"
               element={
-                isLoggedIn ? <ContactsView /> : <Navigate replace to="/login" />
+                <PrivateRoute>
+                  <ContactsView />
+                </PrivateRoute>
               }
             ></Route>
 
             <Route
+              path="*"
               element={<h2>404 error, this page doesn't exist</h2>}
             ></Route>
           </Routes>
